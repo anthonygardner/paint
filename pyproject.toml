@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paint"
+version = "0.0.1"
+authors = [
+    { name = "Anthony Gardner" },
+]
+maintainers = [
+    { name = "Anthony Gardner" },
+]
+description = "Algorithms for imaging, navigation and tracking, written in Python"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "plotly",
+    "Sphinx",
+]
+
+[project.scripts]
+paint = "paint:cli"
+
+[project.urls]
+Homepage = "https://github.com/anthonygardner/paint"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["paint"]

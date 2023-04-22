@@ -1,0 +1,26 @@
+{
+    "name": "paint-gui",
+    "version": "0.0.1",
+    "description": "gui for paint using electron.js",
+    "main": "main.js",
+    "scripts": {
+        "gui": "electron .",
+        "test": "test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:anthonygardner/paint.git"
+    },
+    "author": {
+        "name": "Anthony Gardner"
+    },
+    "license": "ISC",
+    "devDependencies": {
+        "electron": "^23.2.4",
+        "electron-tabs": "^1.0.1"
+    },
+    "dependencies": {
+        "fs": "^0.0.1-security",
+        "path": "^0.12.7"
+    }
+}
