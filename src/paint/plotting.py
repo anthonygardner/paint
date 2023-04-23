@@ -1,15 +1,93 @@
-from pydantic.dataclasses import dataclass
+from typing import List, Optional
 
-from paint.config import Plot
-
-import plotly.io as pio
 import logging
+import matplotlib.pyplot as plt
+import numpy as np
+import plotly.io as pio
+
+from mpl_toolkits.mplot3d import Axes3D
+
+from paint.config import Directory, Plot
 
 
 pio.kaleido.scope.mathjax = None
 
 
-plot = Plot
+def draw_3d_arrow(
+    arrow_location: np.ndarray,
+    arrow_vector: np.ndarray,
+    head_length: float = 0.3,
+    color: Optional[str] = None,
+    name: Optional[str] = None,
+    ax: Optional[Axes3D] = None,
+) -> Axes3D:
+    if ax is None:
+        ax = plt.gca(projection="3d")
+    
+    ax.quiver(
+        *arrow_location,
+        *arrow_vector,
+        arrow_length_ratio=head_length / np.linalg.norm(arrow_vector),
+        color=color,
+    )
+
+    if name is not None:
+        ax.text(*(arrow_location + arrow_vector), name)
+    
+    return ax
+
+def set_xyz_limits(
+    left: Optional[float] = None,
+    right: Optional[float] = None,
+    ax: Optional[Axes3d]= None,
+) -> Axes3D:
+    if ax is None:
+        ax = plt.gca(projection="3d")
+    
+    ax.set_xlim3d(left, right)
+    ax.set_ylim3d(left, right)
+    ax.set_zlim3d(left, right)
+
+    return ax
+
+def set_xyz_ticks(
+    ticks: List[float],
+    ax: Optional[Axes3D] = None,
+) -> Axes3D:
+    if ax is None:
+        ax = plt.gca(projection="3d")
+
+    ax.set_xticks(ticks)
+    ax.set_yticks(ticks)
+    ax.set_zticks(ticks)
+
+    return ax
+
+
+class ReferenceFrame:
+    def __init__(
+        self,
+        origin: np.ndarray,
+        x_axis: np.ndarray,
+        y_axis: np.ndarray,
+        z_axis: np.ndarray,
+        name: str,
+    ) -> None:
+        self.origin = origin
+        self.x_axis = x_axis
+        self.y_axis = y_axis
+        self.z_axis = z_axis
+        self.name = name
+
+    def draw_3d(
+        self,
+        head_length: float = 0.3,
+        ax: Optional[Axes3D] = None,
+    ) -> Axes3D:
+        if ax is None:
+            ax = plt.gca(projection="3d")
+
+        ax.text(*self.origin + 0.5, f"{self.name}")
 
 
 def plot_all(
@@ -26,7 +104,7 @@ def plot_all(
 
     if make_html:
         fig.write_html(f"")
-        logging.info(f"an html file has been generated at: {Directories.RESULTS_HTML}")
+        logging.info(f"An html file has been generated: {Directory.RESULTS_HTML}")
     else:
         fig.show()
 
@@ -38,7 +116,7 @@ def plot_all(
             height=1000,
             width=1000,
         )
-        logging.info(f"a pdf file has been generated at: ...")
+        logging.info(f"A pdf file has been generated at: {Directory.RESULTS_PDF}")
     else:
         fig.show()
 

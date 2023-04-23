@@ -1,5 +1,13 @@
-from pydantic.dataclasses import dataclass
 from typing import Final
+
+from pathlib import Path
+from pydantic.dataclasses import dataclass
+
+
+@dataclass
+class Directory:
+    RESULTS_HTML: Final[Path]
+    RESULTS_PDF: Final[Path]
 
 
 @dataclass
