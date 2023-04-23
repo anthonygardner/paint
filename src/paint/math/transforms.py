@@ -10,6 +10,7 @@ def rotate_about_x(angle: float = 0.0) -> np.ndarray:
             [0.0, np.sin(angle), np.cos(angle)],
         ],
     )
+
     return Rx
 
 def rotate_about_y(angle: float = 0.0) -> np.ndarray:
@@ -22,6 +23,7 @@ def rotate_about_y(angle: float = 0.0) -> np.ndarray:
             [-np.sin(angle), 0.0, np.cos(angle)],
         ],
     )
+
     return Ry
 
 def rotate_about_z(angle: float = 0.0) -> np.ndarray:
@@ -34,6 +36,7 @@ def rotate_about_z(angle: float = 0.0) -> np.ndarray:
             [0.0, 0.0, 1.0],
         ],
     )
+
     return Rz
 
 def rotate_about_zyx(
@@ -46,5 +49,24 @@ def rotate_about_zyx(
     Rx = rotate_about_x(angle=angle_x)
     Ry = rotate_about_y(angle=angle_y)
     Rz = rotate_about_z(angle=angle_z)
+
     return Rz @ Ry @ Rx
+
+def skew_symmetrix_matrix(vector: np.ndarray) -> np.ndarray:
+    matrix = np.ndarray([
+        [0.0, vector[2], -vector[1]],
+        [-vector[2], 0.0, vector[0]],
+        [vector[1], -vector[0], 0.0],
+    ])
+
+    return matrix
+
+def quaternion_to_matrix(quaternion: np.ndarray) -> np.ndarray:
+    qw, qv = quaternion[0], quaternion[1:]
+
+    matrix = (qw**2 - np.dot(qv.T, qv)) * np.eye(3) + \
+        2.0 * np.dot(qv, qv.T) - \
+        2.0 * qw * skew_symmetrix_matrix(qv)
+    
+    return matrix
 
