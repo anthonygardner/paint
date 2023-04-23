@@ -1,6 +1,7 @@
 import numpy as np
 
 
+# geometry
 def get_normal_to_plane(
     x: np.ndarray,
     y: np.ndarray,
@@ -17,4 +18,5 @@ def is_point_in_plane(
         return True
     else:
         return False
+
 
