@@ -1,7 +1,8 @@
+"""Core physics for point masses and rigid bodies
+"""
 from typing import Self
 
-from ant import math
-from ant.math import Vector3
+from paint.structs import Vector3
 
 
 class RigidBody:
@@ -25,10 +26,10 @@ class RigidBody:
         forces: List[Vector3],
         distances: List[Vector3],
     ) -> Vector3:
-        force_at_cg = Vector3.zeros()
+        force_at_cg = Vector3.zeros
 
         for force in forces:
-            force_at_cg += 
+            force_at_cg += force
 
 
 def moment_transport_theorem(

@@ -1,10 +1,20 @@
+from __future__ import annotations
+
+import numpy as np
+
+
 class Array:
-    data: List[float]
+    array: np.ndarray
+
 
 class Vector3(Array):
     x: float
     y: float
     z: float
+    
+    @staticmethod
+    def zeros(self) -> Vector3:
+        return np.zeros((3, 1))
 
 
 class Quaternion(Array):
